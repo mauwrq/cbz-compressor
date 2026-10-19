@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <string>
 
 class ProgressBar {
@@ -18,5 +19,6 @@ class ProgressBar {
     int total = 0;
     int current = 0;
     bool show_percent = false;
+    std::chrono::steady_clock::time_point start_time;
     void draw();
 };
