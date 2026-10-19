@@ -11,8 +11,8 @@ void ImageConverter::to_jpg(fs::path img_path, fs::path output_path) {
   if (ext != ".jpg") {
     fs::path jpg_path = output_path / img_path.filename().replace_extension(".jpg");
     std::ofstream file(jpg_path);
-    cv::Mat non_jpg = cv::imread(img_path);
-    cv::imwrite(jpg_path, non_jpg, std::vector<int>{cv::IMWRITE_JPEG_QUALITY, 95});
+    cv::Mat non_jpg = cv::imread(img_path.string());
+    cv::imwrite(jpg_path.string(), non_jpg, std::vector<int>{cv::IMWRITE_JPEG_QUALITY, 95});
     file.close();
   }
   else {
@@ -32,8 +32,8 @@ void ImageConverter::to_webp(fs::path img_path, fs::path output_path) {
   if (ext != ".webp") {
     fs::path webp_path = output_path / img_path.filename().replace_extension(".webp");
     std::ofstream file(webp_path);
-    cv::Mat non_jpg = cv::imread(img_path);
-    cv::imwrite(webp_path, non_jpg, std::vector<int>{cv::IMWRITE_WEBP_QUALITY, 95});
+    cv::Mat non_jpg = cv::imread(img_path.string());
+    cv::imwrite(webp_path.string(), non_jpg, std::vector<int>{cv::IMWRITE_WEBP_QUALITY, 95});
     file.close();
   }
   else {

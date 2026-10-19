@@ -24,7 +24,7 @@ void CBZTools::unzip(std::string zip_path_str, fs::path output_path) {
     char *contents = new char[st.size];
     zip_file *f = zip_fopen_index(zip, i, 0);
     zip_fread(f, contents, st.size);
-    std::ofstream file(output_path / st.name);
+    std::ofstream file(output_path / st.name, std::ios::binary);
     file.write(contents, st.size);
     file.close();
   }
