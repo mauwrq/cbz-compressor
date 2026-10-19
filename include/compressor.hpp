@@ -4,7 +4,6 @@
 
 class Compressor {
   public:
-    // pages wider than this get scaled down to it, in pixels
-    static constexpr int default_width = 1264;
-    void compress(std::string cbz_input, PathTools::project_paths project_paths, bool show_progress = false, int width = default_width);
+    // pages are scaled down to fit inside max_width x max_height, where 0 means no limit
+    void compress(std::string cbz_input, PathTools::project_paths project_paths, bool show_progress = false, int max_width = 0, int max_height = 0);
 };

@@ -14,11 +14,11 @@ int main(int argc, char* argv[]) {
 
   ArgumentParser::args args = arg_parser.parse_args(argc, argv);
   std::string cbz_input = args.input[0];
-  if (args.width <= 0) {
-    std::cerr << "error: --width must be a positive number of pixels\n";
+  if ((args.width && *args.width <= 0) || (args.height && *args.height <= 0)) {
+    std::cerr << "error: --width and --height must be a positive number of pixels\n";
     return 1;
   }
 
   PathTools::project_paths project_paths = path_tools.init_project_paths(cbz_input);
-  compressor.compress(cbz_input, project_paths, !args.quiet, args.width);
+  compressor.compress(cbz_input, project_paths, !args.quiet, args.width.value_or(0), args.height.value_or(0));
 }

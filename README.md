@@ -23,7 +23,7 @@ Time: 58.8s (0.28s per page)
 ```sh
 cbz-compressor <file.cbz>       # writes compressed/<file.cbz> next to the input
 cbz-compressor -q <file.cbz>    # same, without progress output
-cbz-compressor -w 1600 <file.cbz>   # scale pages down to 1600 px wide instead of 1264
+cbz-compressor -w 1264 -H 1680 <file.cbz>   # fit pages to a 1264x1680 screen
 ```
 
 ## Building
