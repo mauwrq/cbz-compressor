@@ -6,3 +6,4 @@ test.sh
 compile_commands.json
 .github/*
 .vscode/*
+cmake-build-debug
