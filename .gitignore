@@ -7,3 +7,4 @@ compile_commands.json
 .github/*
 .vscode/*
 cmake-build-debug
+.idea/
