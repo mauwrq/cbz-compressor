@@ -1,10 +1,19 @@
 #include "cbz_tools.hpp"
 #include <zip.h>
+#include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <filesystem>
 #include <string>
 
 namespace fs = std::filesystem;
+
+// CBZs often contain extras like ComicInfo.xml that OpenCV can't read, so only pages get unzipped
+static bool is_image(std::string name) {
+  std::string ext = fs::path(name).extension().string();
+  std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c) { return std::tolower(c); });
+  return ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".webp" || ext == ".gif" || ext == ".bmp";
+}
 
 void CBZTools::unzip(std::string zip_path_str, fs::path output_path, ProgressBar& bar) {
   const char* zip_path = zip_path_str.c_str();
@@ -22,6 +31,10 @@ void CBZTools::unzip(std::string zip_path_str, fs::path output_path, ProgressBar
   bar.start(image_count);
   for (int i = 0; i < image_count; i++) {
     zip_stat_index(zip, i, 0, &st);
+    if (!is_image(st.name)) {
+      bar.tick();
+      continue;
+    }
     char *contents = new char[st.size];
     zip_file *f = zip_fopen_index(zip, i, 0);
     zip_fread(f, contents, st.size);

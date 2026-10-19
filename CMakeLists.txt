@@ -16,7 +16,7 @@ install(TARGETS main)
 
 enable_testing()
 find_package(GTest REQUIRED)
-add_executable(tests tests/cleanup_tests.cpp)
+add_executable(tests tests/cleanup_tests.cpp tests/unzip_tests.cpp)
 target_link_libraries(tests panelpress_lib GTest::gtest_main)
 include(GoogleTest)
 gtest_discover_tests(tests DISCOVERY_MODE PRE_TEST)
