@@ -3,7 +3,7 @@
 A command-line tool that shrinks comic book archives (`.cbz`). It resizes every page to a consistent width and re-encodes it as WebP, which can cut the file size by almost half without visible loss on screen.
 
 ```
-> cbz-compressor "Vol 1.cbz"
+> cbz-compressor -w 1264 -H 1680 "Vol 1.cbz"
 Unzipping   [##############################] 209/209    0.9s
 Scaling     [##############################] 209/209    13.0s
 Converting  [##############################] 209/209    42.3s
