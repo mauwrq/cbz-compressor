@@ -9,6 +9,7 @@ class PathTools {
       std::filesystem::path output;
     };
     struct tmp_paths {
+      std::filesystem::path root;
       std::filesystem::path unzipped;
       std::filesystem::path scaled;
       std::filesystem::path converted;
