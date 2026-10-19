@@ -15,5 +15,5 @@ int main(int argc, char* argv[]) {
   std::string cbz_input = args.input[0];
 
   PathTools::project_paths project_paths = path_tools.init_project_paths(cbz_input);
-  compressor.compress(cbz_input, project_paths);
+  compressor.compress(cbz_input, project_paths, !args.quiet);
 }

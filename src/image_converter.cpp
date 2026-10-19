@@ -41,8 +41,11 @@ void ImageConverter::to_webp(fs::path img_path, fs::path output_path) {
   }
 }
 
-void ImageConverter::to_webps(fs::path folder_path, fs::path output_path) {
+void ImageConverter::to_webps(fs::path folder_path, fs::path output_path, ProgressBar& bar) {
+  bar.start(std::distance(fs::directory_iterator{folder_path}, fs::directory_iterator{}));
   for (auto const& img : fs::directory_iterator{folder_path}) {
     to_webp(img.path(), output_path);
+    bar.tick();
   }
+  bar.finish();
 }

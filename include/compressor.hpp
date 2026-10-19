@@ -4,5 +4,5 @@
 
 class Compressor {
   public:
-    void compress(std::string cbz_input, PathTools::project_paths project_paths);
+    void compress(std::string cbz_input, PathTools::project_paths project_paths, bool show_progress = false);
 };

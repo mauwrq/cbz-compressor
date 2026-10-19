@@ -9,6 +9,7 @@ ArgumentParser::args ArgumentParser::parse_args(int argc, char* argv[]) {
   po::options_description desc("Allowed options");
   desc.add_options()
       ("help", "produce help message")
+      ("quiet,q", po::bool_switch(), "don't show progress")
       ("input", po::value< std::vector<std::string> >(), "input file");
   
   po::positional_options_description p;
@@ -25,6 +26,8 @@ ArgumentParser::args ArgumentParser::parse_args(int argc, char* argv[]) {
     std::cout << desc << "\n";
     return args;
   }
+
+  args.quiet = vm["quiet"].as<bool>();
 
   if (vm.count("input")) {
     args.input = vm["input"].as<std::vector<std::string>>();

@@ -1,4 +1,5 @@
 #include "compressor.hpp"
+#include <cstdio>
 #include <filesystem>
 #include "cbz_tools.hpp"
 #include "image_scaler.hpp"
@@ -7,18 +8,26 @@
 
 namespace fs = std::filesystem;
 
-void Compressor::compress(std::string cbz_input, PathTools::project_paths project_paths) {
+void Compressor::compress(std::string cbz_input, PathTools::project_paths project_paths, bool show_progress) {
   PathTools path_tools;
   CBZTools cbz_tools;
   ImageScaler scaler;
   ImageConverter converter;
+  ProgressBar unzip_bar("Unzipping", show_progress);
+  ProgressBar scale_bar("Scaling", show_progress);
+  ProgressBar convert_bar("Converting", show_progress);
+  ProgressBar zip_bar("Zipping", show_progress);
 
   PathTools::tmp_paths tmp_paths = path_tools.init_tmp_paths(cbz_input, project_paths);
-  cbz_tools.unzip(cbz_input, tmp_paths.unzipped);
-  scaler.scale_imgs(tmp_paths.unzipped, tmp_paths.scaled, 1264);
+  cbz_tools.unzip(cbz_input, tmp_paths.unzipped, unzip_bar);
+  scaler.scale_imgs(tmp_paths.unzipped, tmp_paths.scaled, 1264, scale_bar);
   fs::remove_all(tmp_paths.unzipped);
-  converter.to_webps(tmp_paths.scaled, tmp_paths.converted);
+  converter.to_webps(tmp_paths.scaled, tmp_paths.converted, convert_bar);
   fs::remove_all(tmp_paths.scaled);
-  cbz_tools.rezip(tmp_paths.converted, project_paths.output, cbz_input);
+  cbz_tools.rezip(tmp_paths.converted, project_paths.output, cbz_input, zip_bar);
   fs::remove_all(tmp_paths.root);
+
+  if (show_progress) {
+    std::fprintf(stderr, "Done: %s\n", (project_paths.output / fs::path(cbz_input).filename()).string().c_str());
+  }
 }

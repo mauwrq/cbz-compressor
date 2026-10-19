@@ -16,8 +16,11 @@ void ImageScaler::scale_img(fs::path img_path, fs::path output_path, double widt
   file.close();
 }
 
-void ImageScaler::scale_imgs(fs::path folder_path, fs::path output_path, double width) {
+void ImageScaler::scale_imgs(fs::path folder_path, fs::path output_path, double width, ProgressBar& bar) {
+  bar.start(std::distance(fs::directory_iterator{folder_path}, fs::directory_iterator{}));
   for (auto const& img : fs::directory_iterator{folder_path}) {
     scale_img(img.path(), output_path, width);
+    bar.tick();
   }
+  bar.finish();
 }
