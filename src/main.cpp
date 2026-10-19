@@ -14,6 +14,6 @@ int main(int argc, char* argv[]) {
   ArgumentParser::args args = arg_parser.parse_args(argc, argv);
   std::string cbz_input = args.input[0];
 
-  PathTools::project_paths project_paths = path_tools.init_project_paths(fs::canonical(argv[0]));
+  PathTools::project_paths project_paths = path_tools.init_project_paths(cbz_input);
   compressor.compress(cbz_input, project_paths);
 }

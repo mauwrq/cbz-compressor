@@ -11,6 +11,8 @@ add_library(panelpress_lib STATIC ${SOURCES})
 target_link_libraries(panelpress_lib PUBLIC ${OpenCV_LIBS} Boost::program_options libzip::zip)
 add_executable(main src/main.cpp)
 target_link_libraries(main panelpress_lib)
+set_target_properties(main PROPERTIES OUTPUT_NAME cbz-compressor)
+install(TARGETS main)
 
 enable_testing()
 find_package(GTest REQUIRED)

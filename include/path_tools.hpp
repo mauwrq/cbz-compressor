@@ -14,7 +14,7 @@ class PathTools {
       std::filesystem::path scaled;
       std::filesystem::path converted;
     };
-    project_paths init_project_paths(std::filesystem::path executable_path);
+    project_paths init_project_paths(std::filesystem::path cbz_path);
     tmp_paths init_tmp_paths(std::string cbz_name_str, project_paths project_paths);
 };
 

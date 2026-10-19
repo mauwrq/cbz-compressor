@@ -4,13 +4,12 @@
 
 namespace fs = std::filesystem;
 
-PathTools::project_paths PathTools::init_project_paths(fs::path executable_path) {
+PathTools::project_paths PathTools::init_project_paths(fs::path cbz_path) {
   PathTools::project_paths project_paths;
-  fs::path project_root = executable_path.parent_path().parent_path();
-  fs::create_directory("output");
-  project_paths.output = project_root / "output";
-  fs::create_directory("tmp");
-  project_paths.tmp = project_root / "tmp";
+  project_paths.output = fs::absolute(cbz_path).parent_path() / "compressed";
+  fs::create_directories(project_paths.output);
+  project_paths.tmp = fs::temp_directory_path() / "cbz-compressor";
+  fs::create_directories(project_paths.tmp);
   return project_paths;
 };
   
