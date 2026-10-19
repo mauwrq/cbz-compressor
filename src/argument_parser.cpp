@@ -2,6 +2,7 @@
 #include <boost/program_options.hpp>
 #include <vector>
 #include <iostream>
+#include "compressor.hpp"
 
 namespace po = boost::program_options;
 
@@ -10,6 +11,7 @@ ArgumentParser::args ArgumentParser::parse_args(int argc, char* argv[]) {
   desc.add_options()
       ("help", "produce help message")
       ("quiet,q", po::bool_switch(), "don't show progress")
+      ("width,w", po::value<int>()->default_value(Compressor::default_width), "scale pages wider than this down to it, in pixels")
       ("input", po::value< std::vector<std::string> >(), "input file");
   
   po::positional_options_description p;
@@ -28,6 +30,7 @@ ArgumentParser::args ArgumentParser::parse_args(int argc, char* argv[]) {
   }
 
   args.quiet = vm["quiet"].as<bool>();
+  args.width = vm["width"].as<int>();
 
   if (vm.count("input")) {
     args.input = vm["input"].as<std::vector<std::string>>();

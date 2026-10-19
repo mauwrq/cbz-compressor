@@ -9,7 +9,7 @@
 
 namespace fs = std::filesystem;
 
-void Compressor::compress(std::string cbz_input, PathTools::project_paths project_paths, bool show_progress) {
+void Compressor::compress(std::string cbz_input, PathTools::project_paths project_paths, bool show_progress, int width) {
   PathTools path_tools;
   CBZTools cbz_tools;
   ImageScaler scaler;
@@ -23,7 +23,7 @@ void Compressor::compress(std::string cbz_input, PathTools::project_paths projec
 
   PathTools::tmp_paths tmp_paths = path_tools.init_tmp_paths(cbz_input, project_paths);
   cbz_tools.unzip(cbz_input, tmp_paths.unzipped, unzip_bar);
-  scaler.scale_imgs(tmp_paths.unzipped, tmp_paths.scaled, 1264, scale_bar);
+  scaler.scale_imgs(tmp_paths.unzipped, tmp_paths.scaled, width, scale_bar);
   fs::remove_all(tmp_paths.unzipped);
   converter.to_webps(tmp_paths.scaled, tmp_paths.converted, convert_bar);
   fs::remove_all(tmp_paths.scaled);

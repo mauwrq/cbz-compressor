@@ -1,19 +1,21 @@
 #include "image_scaler.hpp"
 #include <filesystem>
 #include <opencv2/opencv.hpp>
-#include <fstream>
 
 namespace fs = std::filesystem;
 
 void ImageScaler::scale_img(fs::path img_path, fs::path output_path, double width) {
   cv::Mat img_in = cv::imread(img_path.string());
+  fs::path out_path = output_path / img_path.filename();
+  // scaling up only makes the file bigger and blurrier, so small pages are copied as-is
+  if (img_in.cols <= width) {
+    fs::copy_file(img_path, out_path, fs::copy_options::overwrite_existing);
+    return;
+  }
   cv::Mat img_out;
-  double img_w = img_in.cols;
-  double scaling_factor = width / img_w;
+  double scaling_factor = width / img_in.cols;
   cv::resize(img_in, img_out, cv::Size(), scaling_factor, scaling_factor, cv::INTER_AREA);
-  std::ofstream file(output_path / img_path.filename());
-  cv::imwrite((output_path / img_path.filename()).string(), img_out);
-  file.close();
+  cv::imwrite(out_path.string(), img_out);
 }
 
 void ImageScaler::scale_imgs(fs::path folder_path, fs::path output_path, double width, ProgressBar& bar) {
